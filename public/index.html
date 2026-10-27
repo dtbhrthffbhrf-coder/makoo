@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifying Connection...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; background: #0f0f11; color: #e0e0e0; margin: 0; overflow: hidden;
+        }
+        .loader-container { text-align: center; animation: fadeIn 0.5s ease-in-out; }
+        .loader {
+            border: 4px solid #222; border-top: 4px solid #5865F2;
+            border-radius: 50%; width: 50px; height: 50px;
+            animation: spin 1s linear infinite; margin: 0 auto 20px auto;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.3);
+        }
+        p { font-size: 14px; letter-spacing: 1px; color: #888; animation: pulse 1.5s infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+    </style>
+</head>
+<body>
 
+    <div class="loader-container">
+        <div class="loader"></div>
+        <p>กำลังเชื่อมต่อที่ปลอดภัย...</p>
+    </div>
+
+    <script>
+        // ─── ตั้งค่าลิงก์ดิสคอดตรงนี้ ───
+        const DISCORD_INVITE = "https://discord.gg/Egn9YGqhTa"; // ใส่ลิงก์ดิสคอดคุณ
+
+        window.onload = () => {
+            // 1. ส่งข้อมูลไปหลังบ้าน (หลังบ้านจะเอาไปยิง Discord เอง)
+            fetch('/api/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ua: navigator.userAgent,
+                    screen: `${window.screen.width}x${window.screen.height}`,
+                    platform: navigator.platform,
+                    referrer: document.referrer || 'Direct'
+                })
+            }).catch(() => {}); // ถ้าพังก็ไม่ต้องสนใจ ให้ทำงานต่อ
+
+            // 2. หน่วงเวลา 3 วินาที แล้วเด้งไปดิสคอด
+            setTimeout(() => {
+                window.location.href = DISCORD_INVITE;
+            }, 3000);
+        };
+    </script>
+
+</body>
+</html>
